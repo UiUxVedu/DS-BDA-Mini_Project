@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row g-4">
+
+    <!-- Prediction -->
+    <div class="col-md-4">
+        <div class="card p-4 text-center">
+            <h5 class="text-muted">Prediction</h5>
+            <a href="/export-pdf/?result={{ result }}&model={{ best_model }}" 
+                class="btn btn-primary mt-3">
+                Download Report
+            </a>
+            <h1 class="text-success mt-2">{{ result|floatformat:2 }}</h1>
+            <a href="/export-pdf/?result={{ result }}&model={{ best_model }}" 
+                class="btn btn-primary mt-3">
+                    Download Report
+                </a>
+            <p class="mt-2">Model: <strong>{{ best_model }}</strong></p>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <div class="col-md-8">
+        <div class="card p-4">
+            <h5 class="mb-3">Model Performance</h5>
+
+            <table class="table table-sm table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Model</th>
+                        <th>R²</th>
+                        <th>MSE</th>
+                        <th>MAE</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for name, val in all_results.items %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ val.r2|floatformat:3 }}</td>
+                        <td>{{ val.mse|floatformat:3 }}</td>
+                        <td>{{ val.mae|floatformat:3 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <canvas id="chart" height="100"></canvas>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const labels = [
+        {% for name, val in all_results.items %}
+            "{{ name }}",
+        {% endfor %}
+    ];
+
+    const data = [
+        {% for name, val in all_results.items %}
+            {{ val.r2 }},
+        {% endfor %}
+    ];
+
+    new Chart(document.getElementById("chart"), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'R² Score',
+                data: data
+            }]
+        }
+    });
+</script>
+
+{% endblock %}
