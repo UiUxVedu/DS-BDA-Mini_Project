@@ -1,25 +1,3 @@
-Perfect — now your project is structured properly 
-Let’s make your GitHub look **professional + resume-ready**.
-
-Below is a **complete README.md** you can directly copy & paste.
-
----
-
-#  FILE: `README.md` (create in root of repo)
-
- Go to GitHub → click **Add README**
- OR create file manually named:
-
-```text
-README.md
-```
-
----
-
-#  COPY THIS FULL README
-
-```md
-#  Admission Predictor System
 
 A full-stack Machine Learning web application that predicts the probability of admission based on academic performance using multiple regression models.
 
